@@ -12,6 +12,7 @@ app.use(morgan(':method :url :status :res[content-length] - :response-time ms :r
 
 app.use(cors())
 
+app.use(express.static('build'))
 
 let persons = [
   {
@@ -39,10 +40,6 @@ let persons = [
 function generateId(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
-
-app.get('/', (req, res) => {
-  res.send('<h1>Hello World!</h1>')
-})
 
 app.get('/info', (req, res) => {
   const date = new Date()
