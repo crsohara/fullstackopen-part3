@@ -56,11 +56,13 @@ app.get('/api/persons/:id', (req, res) => {
 
   Person.findById(req.params.id)
     .then(person => {
-      res.json(person.toJSON())
+      if (person) {
+        res.json(person.toJSON())
+      } else {
+        res.status(404).end()
+      }
     })
-    .catch(error => {
-      res.status(404).end()
-    })
+    .catch(error => next(error))
 
 })
 
@@ -75,3 +77,15 @@ const PORT = process.env.PORT || process.env.PORT
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError' && error.kind == 'ObjectId') {
+    return response.status(400).send({ error: 'malformatted id' })
+  }
+
+  next(error)
+}
+
+app.use(errorHandler)
