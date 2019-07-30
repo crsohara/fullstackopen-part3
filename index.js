@@ -17,10 +17,6 @@ app.use(cors())
 
 app.use(express.static('build'))
 
-function generateId(max) {
-  return Math.floor(Math.random() * Math.floor(max));
-}
-
 app.get('/info', (req, res) => {
   const date = new Date()
   res.send(`<p>Phonebook has info for ${persons.length} people<p><p>${date}</p>`)
@@ -44,19 +40,15 @@ app.post('/api/persons', (req, res) => {
     return res.status(400).json({ error: "Number missing" })
   }
 
-  if (persons.find( person => person.name === name )) {
-    return res.status(400).json({ error: "Name must be unique" })
-  }
-
-  const person = {
+  const person = new Person({
     name: name,
     number: number,
-    id: generateId(100)
-  }
+  })
 
-  persons = persons.concat(person)
-
-  res.json(person)
+  person.save().then(person => {
+    console.log(`${person.name} saved to database with number: ${person.number}!`)
+    res.json(person.toJSON())
+  })
 
 })
 
