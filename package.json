@@ -4,9 +4,11 @@
   "description": "Full Stack Open part 3",
   "main": "index.js",
   "scripts": {
+    "build": "rm -rf build && cd ../fullstackopen/part2/phonebook && npm run build && cp -r build ../../../fullstackopen-part3/",
     "start": "node index.js",
     "watch": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -19,9 +21,15 @@
   },
   "homepage": "https://github.com/crsohara/fullstackopen-part3#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "cors": "^2.8.5",
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.6.7",
+    "mongoose-unique-validator": "^2.0.3",
+    "morgan": "^1.9.1"
   },
   "devDependencies": {
+    "eslint": "^6.2.1",
     "nodemon": "^1.19.1"
   }
 }
